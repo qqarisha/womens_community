@@ -1,0 +1,54 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #050723;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    background-color: #000000;
+}
+.header-institute {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.header-institute-word {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-institute-word-name8 {
+    font-weight: bold;
+    font-size: 29px;
+    color: #ffffff;
+}
+
+.header-institute-word-name {
+    font-weight: bold;
+    font-size: 29px;
+    color: #F534DC;
+}
+.header-institute-line {
+    border-left: medium solid #ffffff;
+}
+
+.header-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+.header-menu-word-name{
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.header-phone {
+    
+}

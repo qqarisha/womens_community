@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title%}{% endblock title %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-institute">
+                <div class="header-institute-word">
+                    <span class="header-institute-word-name8">ИНСТИТУТ №8</span>
+                    <span class="header-institute-word-name">МАИ</span>
+                </div>
+                <div class="header-institute-line"></div>
+            </div>
+            <div class="header-menu">
+                <a href="" class="header-menu-img"><img src="static/menu.png" alt="menu-img" width="25" height="25"></a>
+                <a href="" class="header-menu-word"><span class="header-menu-word-name">МЕНЮ</span></a>
+            </div>
+            <div class="header-phone">
+                <span class="header-phone-num">+7 (999) 999-99-00</span>
+            </div>
+        </div>
+
+
+        <div class="footer">
+
+        </div>
+        {%block body%}{%endblock%}
+        <script src="" async defer></script>
+    </body>
+</html>
