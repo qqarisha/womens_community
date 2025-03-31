@@ -9,10 +9,10 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}">
     </head>
     <body>
-        <div class="header">
+        <header>
             <div class="header-institute">
                 <div class="header-institute-word">
-                    <span class="header-institute-word-name8">ИНСТИТУТ №8</span>
+                    <a href="https://itmai.vercel.app/" class="header-institute-word-itmai"><span class="header-institute-word-name8">ИНСТИТУТ №8</span></a>
                     <span class="header-institute-word-name">МАИ</span>
                 </div>
                 <div class="header-institute-line"></div>
@@ -24,13 +24,27 @@
             <div class="header-phone">
                 <span class="header-phone-num">+7 (999) 999-99-00</span>
             </div>
-        </div>
-
-
-        <div class="footer">
-
-        </div>
+            <div class="header-lk">
+                <a href="" class="header-lk-img"><img src="static/kabinet.png" alt="lk-img" width="25" height="25"></a>
+                <a href="" class="header-lk-word"><span class="header-lk-word-name">ЛИЧНЫЙ КАБИНЕТ</span></a>
+            </header>
+        <main>
         {%block body%}{%endblock%}
+        </main>
+
+
+        <footer>
+            <div class="footer-institute">
+                <div class="footer-institute-word">
+                    <div class="footer-institute-word-main">
+                        <a href="https://itmai.vercel.app/" class="footer-institute-word-main-itmai"><span class="footer-institute-word-main-name8">ИНСТИТУТ №8</span></a>
+                        <span class="footer-institute-word-main-name">МАИ</span>
+                    </div>
+                    <div class="footer-institute-word-more"><span class="footer-institute-word-more-then"></span>БОЛЬШЕ ЧЕМ <span class="footer-institute-word-more-then-it">IT.</span></div>
+                </div>
+                <div class="footer-institute-line"></div>
+        </footer>
+
         <script src="" async defer></script>
     </body>
 </html>
