@@ -50,6 +50,7 @@ header {
     flex-direction: row;
     gap: 15px;
     margin-right: auto;
+    align-items: center;
 }
 .header-menu-word-name{
     font-weight: bold;
@@ -144,7 +145,7 @@ footer {
 .footer-kontact-list{
     display: flex;
     flex-direction: row;
-    gap: 400px; 
+    gap: 500px; 
     color: #ffffff;
     align-items: center;
     
@@ -177,4 +178,3 @@ footer {
 .container {
     gap: 30px;
 }
-    
