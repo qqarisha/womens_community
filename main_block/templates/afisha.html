@@ -3,5 +3,17 @@
 {% block title %}Главная страница{% endblock %}
 
 {%block body%}
-    <h1></h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='afisha.css')}}">
+    <div class="main">
+        <div class="main-word">
+            <h1 class="main-word-zagolovok">АФИША</h1>
+            <button class="main-word-filt">
+                <div class="main-word-filt-button">
+                    <span class="main-word-filt-1">ФИЛЬТР</span>
+                    <img src="static\menu.png" alt="img-menu-filt" height="30" width="30" class="main-word-filt-2">
+                </div>
+            </button>
+        </div>
+        <div class="main-line"></div>
+    </div>
 {%endblock%}
