@@ -1,11 +1,10 @@
-
 body {
     margin: 0;
     font-family: Golos, sans-serif;
     background-color: #050723;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
+    min-height: 100vh;
 }
 
 a {
@@ -15,6 +14,7 @@ a {
 
 
 header {
+    z-index: 3;
     display: flex;
     justify-content: space-between;
     gap: 20px;
@@ -22,11 +22,13 @@ header {
     padding: 25px 40px;
     background-color: #000000;
 }
+
 .header-institute {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
+
 .header-institute-word {
     display: flex;
     flex-direction: column;
@@ -41,6 +43,7 @@ header {
 .header-institute-word-name {
     color: #F534DC;
 }
+
 .header-institute-line {
     border-left: medium solid #ffffff;
 }
@@ -50,9 +53,9 @@ header {
     flex-direction: row;
     gap: 15px;
     margin-right: auto;
-    align-items: center;
 }
-.header-menu-word-name{
+
+.header-menu-word-name {
     font-weight: bold;
     font-size: 18px;
     color: #ffffff;
@@ -70,29 +73,63 @@ header {
     gap: 20px;
     margin-left: auto;
 }
-.header-lk-word-name{
+
+.header-lk-word-name {
     font-weight: bold;
     font-size: 18px;
     color: #ffffff;
 }
 
-
-
+/**/
 main {
-    flex: 1;
-    margin-bottom: 60px;
+    position: relative;
+    min-height: 100vh;
 }
 
+/* Контейнер для горизонтальных рамок */
+.horizontal-frames {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;  /* Вертикальное расположение */
+    justify-content: center;
+    align-items: center;
+    gap: 40px;  /* Расстояние между рамками */
+    pointer-events: none;  /* Клики проходят сквозь рамки */
+}
 
+/* Стиль каждой рамки */
+.frame {
+    z-index: 1;
+    width: 80%;  /* Ширина относительно экрана */
+    height: 170px;  /* Высота горизонтальной рамки */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    background: rgba(245, 52, 220, 0.05);  /* Легкая подложка */
+}
+
+/* Основной контент - должен быть ПОВЕРХ рамок */
+.content {
+    position: relative;
+    background: rgba(5, 7, 35, 0.8);  /* Полупрозрачный фон для читаемости */
+    padding: 30px;
+    margin: 20px;
+    border-radius: 12px;
+}
+
+/**/
 footer {
+    z-index: 3;
     display: flex;
     flex-direction: row;
     gap: 100px;
     background-color: #000000;
-    padding: 35PX 40px;
-    color:#ffffff;
-    bottom: 0;
-    align-items: center;
+    padding: 35px 40px;
+    color: #ffffff;
 }
 
 .footer-institute {
@@ -126,9 +163,11 @@ footer {
     font-weight: bold;
     font-size: 20px;
 }
+
 .footer-institute-word-more-then-it {
     color: #F534DC;
 }
+
 .footer-institute-line {
     border-left: medium solid #ffffff;
 
@@ -142,32 +181,37 @@ footer {
     font-size: 18px;
     font-weight: bold;
 }
-.footer-kontact-list{
+
+.footer-kontact-list {
     display: flex;
     flex-direction: row;
-    gap: 500px; 
+    gap: 400px;
     color: #ffffff;
     align-items: center;
-    
+
 }
-.footer-kontact-list-1column{
+
+.footer-kontact-list-1column {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
 .footer-kontact-list-2column {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-.footer-kontact-list-2column-22{
+
+.footer-kontact-list-2column-22 {
     display: flex;
     flex-direction: row;
     gap: 15px;
     color: #ffffff;
     align-items: center;
 }
-.footer-kontact-primechanie{
+
+.footer-kontact-primechanie {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -175,6 +219,7 @@ footer {
     font-weight: lighter;
     align-items: center;
 }
+
 .container {
     gap: 30px;
 }
