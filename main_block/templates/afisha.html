@@ -16,16 +16,58 @@
     </div>
     <div class="main-line"></div>
 </div>
-<!-- Фоновые горизонтальные рамки -->
-<div class="horizontal-frames">
-    <div class="frame"></div>
-    <div class="frame"></div>
-    <div class="frame"></div>
-</div>
 
-<!-- Основной контент -->
-<div class="content">
- 
+<div class="events-container">
+    <!-- Карточка мероприятия 1 -->
+    <a href="/meropriatie" class="event-frame">
+        <div class="event-image">
+            <img src="{{ url_for('static', filename='donald.png') }}" alt="donald-img" width="60" height="60">
+        </div>
+        <div class="event-info">
+            <h3 class="event-title">Лекция Крылова</h3>
+            <p class="event-date">15 октября 2025, 19:00</p>
+            <p class="event-location">ГУК А</p>
+            <div class="event-description">
+                <span class="what-will-be">Что будет?</span>
+                <p class="event-details">Увлекательная лекция о современных технологиях в искусственном интеллекте</p>
+            </div>
+            <span class="event-price">Бесплатно</span>
+        </div>
+    </a>
+    
+    <!-- Карточка мероприятия 2 -->
+    <a href="/meropriatie" class="event-frame">
+        <div class="event-image">
+            <img src="{{ url_for('static', filename='donald.png') }}" alt="donald-img" width="60" height="60">
+        </div>
+        <div class="event-info">
+            <h3 class="event-title">Экзамен В. Е. Зайцева</h3>
+            <p class="event-date">20-30 октября 2025</p>
+            <p class="event-location">ГУК А</p>
+            <div class="event-description">
+                <span class="what-will-be">Что будет?</span>
+                <p class="event-details">Годовой экзамен по курсу "Основы искусственного интеллекта"</p>
+            </div>
+            <span class="event-price">Бесплатно</span>
+        </div>
+    </a>
+    
+    <!-- Карточка мероприятия 3 -->
+    <a href="/meropriatie" class="event-frame">
+        <div class="event-image">
+            <img src="{{ url_for('static', filename='donald.png') }}" alt="donald-img" width="60" height="60">
+        </div>
+        <div class="event-info">
+            <h3 class="event-title">Олимпиада "Будущее ИИ"</h3>
+            <p class="event-date">25 октября 2025, 18:30</p>
+            <p class="event-location">ГУК А</p>
+            <div class="event-description">
+                <span class="what-will-be">Что будет?</span>
+                <p class="event-details">Соревнование по решению задач в области искусственного интеллекта</p>
+            </div>
+            <span class="event-price">Бесплатно</span>
+        </div>
+    </a>
 </div>
 
 <!-- Страница фильтра -->

@@ -1,7 +1,109 @@
 {% extends "base.html" %}
 
-{% block title %}Страница о нас{% endblock %}
+{% block title %}Описание мероприятия | МАИ{% endblock %}
 
-{%block body%}
-    <h1></h1>
-{%endblock%}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='meropriatie.css') }}">
+
+<div class="event-container">
+    <!-- Заголовок мероприятия -->
+    <div class="event-header">
+        <h1 class="event-title">Лекция Крылова о современных технологиях ИИ</h1>
+        <div class="event-meta">
+            <span class="event-date">15 октября 2025, 19:00</span>
+            <span class="event-location">ГУК А, Аудитория 405</span>
+            <span class="event-price">Бесплатно</span>
+        </div>
+    </div>
+
+    <!-- Основное содержимое -->
+    <div class="event-content">
+        <!-- Блок с изображением -->
+        <div class="event-image-container">
+            <img src="{{ url_for('static', filename='donald.png') }}" alt="Лекция Крылова" class="event-image">
+            <div class="event-image-caption">Профессор Крылов на прошлой лекции</div>
+        </div>
+
+        <!-- Описание мероприятия -->
+        <div class="event-description">
+            <h2>Что будет на мероприятии?</h2>
+            <p>Профессор Крылов, ведущий специалист в области искусственного интеллекта, проведет увлекательную лекцию о
+                последних достижениях в сфере машинного обучения и нейронных сетей.</p>
+
+            <h3>Основные темы:</h3>
+            <ul>
+                <li>Новейшие алгоритмы глубокого обучения</li>
+                <li>Применение ИИ в авиакосмической отрасли</li>
+                <li>Этические аспекты развития искусственного интеллекта</li>
+                <li>Перспективы трудоустройства в сфере ИИ</li>
+            </ul>
+
+            <h3>Для кого это мероприятие?</h3>
+            <p>Лекция будет полезна студентам технических специальностей, аспирантам и всем, кто интересуется
+                современными технологиями. Особый акцент будет сделан на практическое применение знаний в проектах МАИ.
+            </p>
+        </div>
+
+        <!-- Дополнительная информация -->
+        <div class="event-details">
+            <div class="detail-card">
+                <h4><img src="{{ url_for('static', filename='donald.png') }}" alt="Длительность"> Длительность</h4>
+                <p>2 часа (включая Q&A сессию)</p>
+            </div>
+            <div class="detail-card">
+                <h4><img src="{{ url_for('static', filename='donald.png') }}" alt="Лектор"> Лектор</h4>
+                <p>Проф. Крылов А.В., д.т.н., зав. кафедрой №806</p>
+            </div>
+            <div class="detail-card">
+                <h4><img src="{{ url_for('static', filename='donald.png') }}" alt="Организатор"> Организатор</h4>
+                <p>IT-центр МАИ при поддержке института №8</p>
+            </div>
+        </div>
+
+        <!-- Кнопка регистрации -->
+        <div class="event-actions">
+            <button class="register-button" id="openModal">Зарегистрироваться</button>
+            <div class="event-social">
+                <span>Поделиться:</span>
+                <a href="#"><img src="{{ url_for('static', filename='vk.png') }}" alt="VK"></a>
+                <a href="#"><img src="{{ url_for('static', filename='tg.png') }}" alt="Telegram"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Похожие мероприятия -->
+    <div class="related-events">
+        <h2>Похожие мероприятия</h2>
+        <div class="related-list">
+            <a href="/event/2" class="related-card">
+                <img src="{{ url_for('static', filename='donald.png') }}" alt="Экзамен">
+                <h3>Экзамен В.Е. Зайцева</h3>
+                <p>20-30 октября 2025</p>
+            </a>
+            <a href="/event/3" class="related-card">
+                <img src="{{ url_for('static', filename='donald.png') }}" alt="Олимпиада">
+                <h3>Олимпиада "Будущее ИИ"</h3>
+                <p>25 октября 2025</p>
+            </a>
+        </div>
+    </div>
+    <!-- Модальное окно для регистрации -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Регистрация на мероприятие</h2>
+            <form action="/register/1" method="post">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/meropriatie.js') }}"></script>
+
+
+{% endblock %}
