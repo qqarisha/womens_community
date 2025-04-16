@@ -41,6 +41,9 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     if (isValid) {
         // Здесь добавить отправку формы на сервер
         alert('Регистрация успешна!');
+        window.fetch("http://127.0.0.1:5000").then(function(response) { 
+            alert(response.text());
+        });
         // window.location.href = 'profile.html';
     }
 });
