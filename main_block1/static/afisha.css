@@ -77,18 +77,17 @@
 
 /* Контейнер содержимого фильтра */
 .filter-container {
-    background-color: #050723; /* Темно-синий фон */
-    border: 2px solid #F534DC; /* Розовая рамка */
-    border-radius: 16px; /* Закругленные углы */
+    background: rgba(5, 7, 35, 0.9); /* Темно-синий полупрозрачный фон */
+    border-radius: 14px; /* Закругленные углы */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Полупрозрачная белая рамка */
+    box-shadow: 0 0 30px rgba(245, 52, 220, 0.2); /* Розовое свечение */
     width: 90%; /* Ширина 90% от экрана */
     max-width: 600px; /* Максимальная ширина */
     max-height: 90vh; /* Максимальная высота */
     padding: 30px; /* Внутренние отступы */
     overflow-y: auto; /* Вертикальный скролл при необходимости */
-    box-shadow: 0 0 30px rgba(245, 52, 220, 0.3); /* Розовая тень */
     animation: filterFadeIn 0.3s ease-out; /* Анимация появления */
 }
-
 /* Кнопка закрытия */
 .close-filter {
     position: absolute; /* Абсолютное позиционирование */
@@ -104,18 +103,14 @@
 .close-filter:hover {
     opacity: 0.8; /* Небольшая прозрачность */
 }
-
-/* Изображение кнопки закрытия */
-.close-filter img {
-    display: block; /* Блочное отображение */
-}
-
 /* Заголовок фильтра */
 .filter-title {
-    color: #F534DC; /* Белый текст */
+    color: #ffffff; /* Белый текст */
     text-align: center; /* Выравнивание по центру */
     margin-bottom: 30px; /* Отступ снизу */
-    font-size: 28px; /* Размер шрифта */
+    font-size: 36px; /* Размер шрифта */
+    text-transform: uppercase; /* Заглавные буквы */
+
 }
 
 /* ================= СЕКЦИИ ФИЛЬТРА ================= */
@@ -148,12 +143,36 @@
     accent-color: #F534DC; /* Цвет акцента (розовый) */
 }
 
-/* Горизонтальная группа секций */
 .filter-combo-section {
-    display: flex; /* Flex-контейнер */
-    gap: 30px; /* Расстояние между колонками */
+    display: flex; /* Используем Flexbox для выравнивания */
+    align-items: stretch; /* Выравнивание по высоте */
 }
 
+.filter-subsection {
+    flex: 1; /* Каждая секция занимает равное пространство */
+    padding: 10px; /* Отступы внутри секций */
+}
+
+.filter-vertical-line {
+    width: 2px; /* Ширина линии */
+    background-color: white; /* Цвет линии */
+    margin: 0 10px; /* Отступы слева и справа от линии */
+}
+
+
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .filter-combo-section {
+        flex-direction: column;
+    }
+    
+    .filter-vertical-line {
+        width: 100%;
+        height: 2px;
+        margin: 15px 0;
+    }
+}
 /* Отдельная подсекция */
 .filter-subsection {
     flex: 1; /* Равномерное распределение пространства */
@@ -183,27 +202,33 @@
 /* Кнопка "Сбросить" */
 .filter-reset {
     background: none; /* Прозрачный фон */
+    text-transform: uppercase; /* Заглавные буквы */
     border: 2px solid #F534DC; /* Розовая рамка */
     color: #F534DC; /* Розовый текст */
+    transition: 0.3s;   
 }
 
 /* Эффект при наведении на "Сбросить" */
 .filter-reset:hover {
+    transform: translateY(-3px);
     background: rgba(245, 52, 220, 0.1); /* Слегка розовый фон */
 }
 
 /* Кнопка "Применить" */
 .filter-apply {
-    background-color: #F534DC; /* Розовый фон */
-    border: none; /* Без рамки */
-    color: white; /* Белый текст */
+    background: none; /* Прозрачный фон */
+    text-transform: uppercase; /* Заглавные буквы */
+    border: 2px solid #F534DC; /* Розовая рамка */
+    color: #F534DC; /* Розовый текст */
+    transition: 0.3s;   
 }
 
 /* Эффект при наведении на "Применить" */
 .filter-apply:hover {
-    background-color: #ff4aec; /* Ярко-розовый фон */
-    box-shadow: 0 4px 12px rgba(245, 52, 220, 0.4); /* Тень */
+    transform: translateY(-3px);
+    background-color: rgba(245, 52, 220, 0.1);
 }
+
 
 /* ================= АНИМАЦИИ ================= */
 /* Анимация появления фильтра */

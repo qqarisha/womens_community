@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Избранные мероприятия | МАИ{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='izbr.css') }}">
+
+<div class="container">
+    <!-- Шапка профиля -->
+    <div class="profile-header">
+        <img src="{{ url_for('static', filename='donald.png') }}" alt="Аватар" class="profile-avatar">
+        <div class="profile-info">
+            <h1 class="profile-name">Иван Иванов</h1>
+            <p class="profile-email">student@mai.ru</p>
+        </div>
+    </div>
+</div>
+<div class="container1"></div>
+<!-- Карточка мероприятия 1 -->
+{% include "block_meropr.html" %}
+{% include "block_meropr.html" %}
+{% include "block_meropr.html" %}
+{% include "block_meropr.html" %}
+
+{% endblock %}
