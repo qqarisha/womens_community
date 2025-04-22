@@ -1,0 +1,257 @@
+/* ================= ОСНОВНАЯ СТРУКТУРА ================= */
+/* Контейнер главного содержимого страницы */
+.main {
+    display: flex; /* Используем flex-разметку */
+    flex-direction: column; /* Элементы располагаем вертикально */
+    gap: 20px; /* Расстояние между дочерними элементами */
+    margin: 30px; /* Внешние отступы со всех сторон */
+}
+
+/* Блок с заголовком и кнопкой фильтра */
+.main-word {
+    display: flex; /* Flex-контейнер */
+    flex-direction: row; /* Элементы в строку */
+    justify-content: space-between; /* Распределение по ширине */
+    align-items: center; /* Выравнивание по центру по вертикали */
+}
+
+/* Стили для основного заголовка */
+.main-word-zagolovok {
+    color: #ffffff; /* Белый цвет текста */
+    font-size: 75px; /* Очень крупный шрифт */
+    font-weight: bold; /* Жирное начертание */
+    margin: 40px; /* Отступы вокруг заголовка */
+}
+
+/* Горизонтальная разделительная линия */
+.main-line {
+    border-top: 4px solid #ffffff; /* Белая линия толщиной 4px */
+    width: 100%; /* На всю ширину родителя */
+}
+
+/* Контейнер для кнопки фильтра */
+.main-word-filt-button {
+    display: flex; /* Для выравнивания иконки и текста */
+    align-items: center; /* Выравнивание по центру */
+    gap: 10px; /* Расстояние между иконкой и текстом */
+}
+
+/* Стили кнопки фильтра */
+.main-word-filt {
+    padding: 10px 20px; /* Внутренние отступы */
+    background-color: #050723; /* Темно-синий фон */
+    color: #ffffff; /* Белый текст */
+    border: none; /* Без рамки */
+    border-radius: 10px; /* Закругленные углы */
+    cursor: pointer; /* Курсор-указатель */
+    font-size: 20px; /* Размер шрифта */
+    transition: 0.3s; /* Плавные анимации */
+    font-family: Golos, sans-serif; /* Предпочтительный шрифт */
+    font-weight: bold; /* Жирный текст */
+    outline: 4px solid #ffffff; /* Белая обводка */
+    outline-offset: 2px; /* Отступ обводки */
+    width: 174px; /* Фиксированная ширина */
+    height: 43px; /* Фиксированная высота */
+    display: inline-flex; /* Flex-контейнер */
+    align-items: center; /* Выравнивание по центру */
+    justify-content: center; /* Выравнивание по центру */
+    gap: 8px; /* Расстояние между элементами */
+    margin-right: 40px; /* Отступ справа */
+    margin-top: 30px; /* Отступ сверху */
+}
+
+/* ================= МОДАЛЬНОЕ ОКНО ФИЛЬТРА ================= */
+/* Фон модального окна */
+.filter-page {
+    position: fixed; /* Фиксированное позиционирование */
+    top: 0; left: 0; /* Позиция в верхнем левом углу */
+    width: 100%; height: 100%; /* На весь экран */
+    background-color: rgba(5, 7, 35, 0.95); /* Полупрозрачный темно-синий */
+    z-index: 1000; /* Поверх других элементов */
+    display: none; /* По умолчанию скрыто */
+    flex-direction: column; /* Вертикальное расположение */
+    align-items: center; /* Выравнивание по центру */
+    justify-content: center; /* Выравнивание по центру */
+    backdrop-filter: blur(10px); /* Размытие фона */
+}
+
+/* Контейнер содержимого фильтра */
+.filter-container {
+    background-color: #050723; /* Темно-синий фон */
+    border: 2px solid #F534DC; /* Розовая рамка */
+    border-radius: 16px; /* Закругленные углы */
+    width: 90%; /* Ширина 90% от экрана */
+    max-width: 600px; /* Максимальная ширина */
+    max-height: 90vh; /* Максимальная высота */
+    padding: 30px; /* Внутренние отступы */
+    overflow-y: auto; /* Вертикальный скролл при необходимости */
+    box-shadow: 0 0 30px rgba(245, 52, 220, 0.3); /* Розовая тень */
+    animation: filterFadeIn 0.3s ease-out; /* Анимация появления */
+}
+
+/* Кнопка закрытия */
+.close-filter {
+    position: absolute; /* Абсолютное позиционирование */
+    top: 15px; right: 15px; /* Позиция в правом верхнем углу */
+    background: none; /* Прозрачный фон */
+    border: none; /* Без рамки */
+    cursor: pointer; /* Курсор-указатель */
+    padding: 5px; /* Внутренние отступы */
+    z-index: 1; /* Поверх других элементов */
+}
+
+/* Эффект при наведении на кнопку закрытия */
+.close-filter:hover {
+    opacity: 0.8; /* Небольшая прозрачность */
+}
+
+/* Изображение кнопки закрытия */
+.close-filter img {
+    display: block; /* Блочное отображение */
+}
+
+/* Заголовок фильтра */
+.filter-title {
+    color: #F534DC; /* Белый текст */
+    text-align: center; /* Выравнивание по центру */
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта */
+}
+
+/* ================= СЕКЦИИ ФИЛЬТРА ================= */
+/* Общие стили для секций */
+.filter-section,
+.filter-combo-section {
+    margin-bottom: 25px; /* Отступ снизу */
+}
+
+/* Заголовки секций */
+.filter-section h3,
+.filter-subsection h3 {
+    color: #ffffff; /* Розовый цвет */
+    margin-bottom: 15px; /* Отступ снизу */
+    font-size: 18px; /* Размер шрифта */
+}
+
+/* Стили чекбоксов */
+.filter-checkboxes label {
+    display: block; /* Блочное отображение */
+    color: white; /* Белый текст */
+    margin-bottom: 10px; /* Отступ снизу */
+    cursor: pointer; /* Курсор-указатель */
+    padding: 5px 0; /* Внутренние отступы */
+}
+
+/* Стили для input чекбоксов */
+.filter-checkboxes input {
+    margin-right: 10px; /* Отступ справа */
+    accent-color: #F534DC; /* Цвет акцента (розовый) */
+}
+
+/* Горизонтальная группа секций */
+.filter-combo-section {
+    display: flex; /* Flex-контейнер */
+    gap: 30px; /* Расстояние между колонками */
+}
+
+/* Отдельная подсекция */
+.filter-subsection {
+    flex: 1; /* Равномерное распределение пространства */
+}
+
+/* ================= КНОПКИ ДЕЙСТВИЙ ================= */
+/* Контейнер для кнопок */
+.filter-actions {
+    display: flex; /* Flex-контейнер */
+    justify-content: space-between; /* Распределение по ширине */
+    margin-top: 30px; /* Отступ сверху */
+    padding-top: 20px; /* Внутренний отступ сверху */
+    border-top: 1px solid rgba(245, 52, 220, 0.3); /* Верхняя граница */
+}
+
+/* Общие стили для кнопок */
+.filter-reset,
+.filter-apply {
+    padding: 12px 25px; /* Внутренние отступы */
+    border-radius: 8px; /* Закругленные углы */
+    font-weight: bold; /* Жирный текст */
+    cursor: pointer; /* Курсор-указатель */
+    transition: all 0.3s; /* Плавные анимации */
+    font-family: Golos, sans-serif; /* Шрифт */
+}
+
+/* Кнопка "Сбросить" */
+.filter-reset {
+    background: none; /* Прозрачный фон */
+    border: 2px solid #F534DC; /* Розовая рамка */
+    color: #F534DC; /* Розовый текст */
+}
+
+/* Эффект при наведении на "Сбросить" */
+.filter-reset:hover {
+    background: rgba(245, 52, 220, 0.1); /* Слегка розовый фон */
+}
+
+/* Кнопка "Применить" */
+.filter-apply {
+    background-color: #F534DC; /* Розовый фон */
+    border: none; /* Без рамки */
+    color: white; /* Белый текст */
+}
+
+/* Эффект при наведении на "Применить" */
+.filter-apply:hover {
+    background-color: #ff4aec; /* Ярко-розовый фон */
+    box-shadow: 0 4px 12px rgba(245, 52, 220, 0.4); /* Тень */
+}
+
+/* ================= АНИМАЦИИ ================= */
+/* Анимация появления фильтра */
+@keyframes filterFadeIn {
+    from { 
+        opacity: 0; /* Начальная прозрачность */
+        transform: translateY(20px); /* Сдвиг вниз */
+    }
+    to { 
+        opacity: 1; /* Полная видимость */
+        transform: translateY(0); /* На своё место */
+    }
+}
+
+/* ================= ВСПОМОГАТЕЛЬНЫЕ ЭЛЕМЕНТЫ ================= */
+/* Пустой контейнер (вероятно, для отступов) */
+.container1 {
+    height: 30px; /* Фиксированная высота */
+}
+
+/* ================= АДАПТИВНАЯ ВЕРСТКА ================= */
+@media (max-width: 768px) {
+    /* Мобильная версия блока заголовка */
+    .main-word {
+        flex-direction: column; /* Элементы вертикально */
+        align-items: flex-start; /* Выравнивание по левому краю */
+    }
+    
+    /* Мобильная версия заголовка */
+    .main-word-zagolovok {
+        margin: 20px 40px; /* Уменьшенные отступы */
+        font-size: 60px; /* Уменьшенный размер шрифта */
+    }
+    
+    /* Мобильная версия кнопки фильтра */
+    .main-word-filt {
+        margin: 20px 40px; /* Уменьшенные отступы */
+        align-self: flex-end; /* Выравнивание по правому краю */
+    }
+    
+    /* Мобильная версия комбинированной секции */
+    .filter-combo-section {
+        flex-direction: column; /* Элементы вертикально */
+        gap: 20px; /* Расстояние между элементами */
+    }
+    
+    /* Мобильная версия контейнера фильтра */
+    .filter-container {
+        padding: 20px; /* Уменьшенные внутренние отступы */
+    }
+}

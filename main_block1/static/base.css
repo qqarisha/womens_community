@@ -1,0 +1,225 @@
+body {
+    margin: 0;
+    font-family: Golos, sans-serif;
+    background-color: #050723;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+header {
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    padding: 25px 40px;
+    background-color: #000000;
+}
+
+.header-institute {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.header-institute-word {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 29px;
+}
+
+.header-institute-word-name8 {
+    color: #ffffff;
+}
+
+.header-institute-word-name {
+    color: #F534DC;
+}
+
+.header-institute-line {
+    border-left: medium solid #ffffff;
+}
+
+.header-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-right: auto;
+}
+
+.header-menu-word-name {
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.header-phone {
+    display: flex;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.header-lk {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.header-lk-word-name {
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+/**/
+main {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Контейнер для горизонтальных рамок */
+.horizontal-frames {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;  /* Вертикальное расположение */
+    justify-content: center;
+    align-items: center;
+    gap: 40px;  /* Расстояние между рамками */
+    pointer-events: none;  /* Клики проходят сквозь рамки */
+}
+
+/* Стиль каждой рамки */
+.frame {
+    z-index: 1;
+    width: 80%;  /* Ширина относительно экрана */
+    height: 170px;  /* Высота горизонтальной рамки */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    background: rgba(245, 52, 220, 0.05);  /* Легкая подложка */
+}
+
+/* Основной контент - должен быть ПОВЕРХ рамок */
+.content {
+    position: relative;
+    background: rgba(5, 7, 35, 0.8);  /* Полупрозрачный фон для читаемости */
+    padding: 30px;
+    margin: 20px;
+    border-radius: 12px;
+}
+
+/**/
+footer {
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    background-color: #000000;
+    padding: 35px 40px;
+    color: #ffffff;
+}
+
+.footer-institute {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.footer-institute-word {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.footer-institute-word-main {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 29px;
+}
+
+.footer-institute-word-main-name8 {
+    color: #ffffff;
+}
+
+.footer-institute-word-main-name {
+    color: #F534DC;
+}
+
+.footer-institute-word-more {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.footer-institute-word-more-then-it {
+    color: #F534DC;
+}
+
+.footer-institute-line {
+    border-left: medium solid #ffffff;
+
+}
+
+.footer-kontact {
+    display: flex;
+    color: #ffffff;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.footer-kontact-list {
+    display: flex;
+    flex-direction: row;
+    gap: 400px;
+    color: #ffffff;
+    align-items: center;
+
+}
+
+.footer-kontact-list-1column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-kontact-list-2column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-kontact-list-2column-22 {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    color: #ffffff;
+    align-items: center;
+}
+
+.footer-kontact-primechanie {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: lighter;
+    align-items: center;
+}
+
+.container {
+    gap: 30px;
+}
