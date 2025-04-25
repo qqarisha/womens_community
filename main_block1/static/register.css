@@ -4,12 +4,12 @@
     padding: 20px; /* Внутренние отступы */
     background: rgba(5, 7, 35, 0.9); /* Темно-синий полупрозрачный фон */
     border-radius: 14px; /* Закругленные углы */
-    border: 2px solid rgba(255, 255, 255, 0.2); /* Полупрозрачная белая рамка */
+    border: 4px solid #ffffff; /* Полупрозрачная белая рамка */
     box-shadow: 0 0 30px rgba(245, 52, 220, 0.2); /* Розовое свечение */
 }
 
 .registration-header h1 {
-    color: #F534DC; /* Цвет заголовка */
+    color: #ffffff; /* Цвет заголовка */
     text-align: center; /* Центрирование текста */
     margin-bottom: 20px; /* Отступ снизу */
 }
@@ -27,9 +27,9 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 100%; /* Ширина 100% */
+    width: 90%; /* Ширина 100% */
     padding: 10px; /* Внутренние отступы */
-    border: 1px solid #ffffff; /* Белая рамка */
+    border: 2px solid #ffffff; /* Белая рамка */
     border-radius: 5px; /* Закругленные углы */
     background: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон для полей ввода */
     color: #ffffff; /* Цвет текста */
@@ -51,13 +51,14 @@ input[type="password"]:focus {
     width: 100%; /* Ширина кнопки 100% */
     padding: 10px; /* Внутренние отступы */
     background: none; /* Прозрачный фон */
-    border: 2px solid #F534DC; /* Розовая рамка */
+    border: 3px solid #F534DC; /* Розовая рамка */
     color: #F534DC; /* Розовый текст */
     border-radius: 8px; /* Закругленные углы */
     font-size: 16px; /* Размер шрифта */
     text-transform: uppercase; /* Заглавные буквы */
     cursor: pointer; /* Курсор в виде указателя */
     transition: background-color 0.3s; /* Плавный переход цвета фона */
+    margin-top: 15px;
 }
 
 .submit-btn:hover {
