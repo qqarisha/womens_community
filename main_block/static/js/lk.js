@@ -1,3 +1,10 @@
+async function sha256(str) {
+    const buf = new TextEncoder().encode(str);
+    const digest = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(digest))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+}
 
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -27,5 +34,25 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     if (isValid) {
         // Здесь можно добавить AJAX-запрос дя авторизации
         alert('Вход выполнен успешно!');
+        let hash = await sha256(password);
+        window.fetch("http://127.0.0.1:5000").then(function(response) { 
+            alert(response.text());
+        });
+        // window.location.href = 'profile.html';
+        let request_body = {"email": email, "password": hash};
+        const request_properties = {
+            method : 'POST',
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(request_body)
+        }
+        const response = await window.fetch("http://127.0.0.1:5000/api/auth", request_properties)
+        .then((response) => { 
+            response.json().then(res => console.log(res));
+            window.location.href = 'profile.html'; // Перенаправление после успешного входа
+        })
+        .catch((err) => console.error(err));
     }
 });

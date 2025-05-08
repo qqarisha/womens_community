@@ -47,7 +47,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     }
     
     if (isValid) {
-        // Здесь добавить отправку формы на сервер
         alert('Регистрация успешна!');
         let hash = await sha256(password);
         window.fetch("http://127.0.0.1:5000").then(function(response) { 
