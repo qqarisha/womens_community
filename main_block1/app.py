@@ -21,10 +21,6 @@ def lk():
 def register():
     return render_template("register.html")
 
-@app.route('/lk/izbr')
-def izbr():
-    return render_template("izbr.html")
-
 if __name__ == "__main__":
     app.register_blueprint(api_bp)
 
