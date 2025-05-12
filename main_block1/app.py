@@ -1,6 +1,6 @@
-from flask import Flask, render_template, Blueprint
+from flask import Flask, render_template
 from flask_cors import CORS
-from api import bp as api_bp 
+from api import bp as api_bp  
 
 app = Flask(__name__)
 cors = CORS(app, resources=r'/api/*')
@@ -21,10 +21,8 @@ def lk():
 def register():
     return render_template("register.html")
 
-@app.route('/lk/izbr')
-def izbr():
-    return render_template("izbr.html")
 
 if __name__ == "__main__":
     app.register_blueprint(api_bp)
+
     app.run(debug=True, port=5000)
