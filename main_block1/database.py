@@ -8,8 +8,19 @@ class Database:
         self.lock = threading.Lock()                            # Объект – замок 
         self.connection = sql.connect(filename, check_same_thread=False)
         self.cursor = self.connection.cursor()
-        self.cursor.execute(reqs.init_request)
-        
+        self._initialize_tables()
+    
+    def _initialize_tables(self):
+        self.lock.acquire()  # Блокируем доступ другим потокам
+        try:
+            # Создаем 3 таблицы:
+            self.cursor.execute(reqs.init_request_users)  # Пользователи
+            self.cursor.execute(reqs.init_request_events)  # События
+            self.cursor.execute(reqs.events_description)  # Описания событий
+            self.connection.commit()  # Сохраняем изменения
+        finally:
+            self.lock.release()  # Разблокируем доступ
+
     def find_user(self, email):
         self.lock.acquire()                                     # Закрываем замок: сейчас БДшкой пользоваться будем мы. Но если он уже закрыт (занят другими потоками, мы ждём в этом методе и не идем дальше, пока не откроется)
                          
@@ -24,15 +35,11 @@ class Database:
         token = secrets.token_hex(16)
         self.lock.acquire()                                     # Опять работаем с курсором, поэтому замок закрываем 
 
-        # Условие на уникальность токена можно переписать так:
         self.cursor.execute(reqs.find_token, (token,))
         occurences = self.cursor.fetchall()
         while occurences != []: 
             self.cursor.execute(reqs.find_token, (token,))
             occurences = self.cursor.fetchall()
-
-#       while self.cursor.execute(reqs.find_token, (token,)): 
-#           token = secrets.token_hex(16)
 
         self.cursor.execute(reqs.add_user, (request['full_name'], request['email'], request['password'], token))
         self.connection.commit()
