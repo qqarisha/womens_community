@@ -32,12 +32,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
     
     if (isValid) {
-        alert('Вход выполнен успешно!');
         let hash = await sha256(password);
-        window.fetch("http://127.0.0.1:5000").then(function(response) { 
-            alert(response.text());
-        });
-        // window.location.href = 'profile.html';
+
         let request_body = {"email": email, "password": hash};
         const request_properties = {
             method : 'POST',
@@ -47,11 +43,21 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             },
             body : JSON.stringify(request_body)
         }
-        const response = await window.fetch("http://127.0.0.1:5000/api/auth", request_properties)
-        .then((response) => { 
-            response.json().then(res => console.log(res));
-            window.location.href = 'izbr.html'; // Перенаправление после успешного входа
-        })
-        .catch((err) => console.error(err));
+        
+        try {
+            const response = await window.fetch("http://127.0.0.1:5000/api/auth", request_properties);
+            const data = await response.json();
+            
+            if (data.status === 200) {
+                window.location.href = `lk/izbr/${data.token}`; // Перенаправление с токеном
+                alert('Вход выполнен успешно!');
+            } else {
+                console.error('Ошибка авторизации:', data);
+                alert('Ошибка входа: ' + (data.message || 'Неверные учетные данные'));
+            }
+        } catch (err) {
+            console.error('Ошибка сети:', err);
+            alert('Ошибка соединения с сервером');
+        }
     }
 });

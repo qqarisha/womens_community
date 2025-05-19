@@ -10,8 +10,8 @@
     <div class="profile-header">
         <img src="{{ url_for('static', filename='donald.png') }}" alt="Аватар" class="profile-avatar">
         <div class="profile-info">
-            <h1 class="profile-name">Иван Иванов</h1>
-            <p class="profile-email">student@mai.ru</p>
+            <h1 class="profile-name">{{ user_name }}</h1>
+            <p class="profile-email">{{ user_email }}</p>
         </div>
     </div>
 </div>
@@ -21,7 +21,7 @@
 
 </div>
 
-<!-- Карточка мероприятия 1 -->
+<!-- Карточки мероприятий -->
 {% include "block_meropr.html" %}
 {% include "block_meropr.html" %}
 {% include "block_meropr.html" %}

@@ -12,6 +12,8 @@ add_user = '''INSERT INTO Users (full_name, email, password_hash, auth_token) VA
 
 find_token = '''SELECT * FROM Users WHERE auth_token = ?'''
 
+data_by_token = '''SELECT full_name, email FROM Users WHERE auth_token = ?'''
+
 init_request_events = '''CREATE TABLE IF NOT EXISTS Events (
 id INTEGER PRIMARY KEY,
 name TEXT NOT NULL,
