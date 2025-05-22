@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Админ-панель | МАИ{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='admin_lk.css') }}">
+
+<div class="admin-container">
+    <!-- Шапка админ-панели -->
+    <div class="admin-header">
+        <div class="admin-info">
+            <h1 class="admin-title">Панель администратора</h1>
+            <span class="admin-subtitle">Управление мероприятиями</span>
+        </div>
+    </div>
+
+    <!-- Форма создания мероприятия -->
+    <div class="tab-content active" id="create-tab">
+        <form class="event-form" id="create-event-form" enctype="multipart/form-data">
+            <div class="form-section">
+                <h2 class="section-title">Основная информация</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-title">Название мероприятия</label>
+                        <input type="text" id="event-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-category">Категория</label>
+                        <select id="event-category" name="category" required>
+                            <option value="">Выберите категорию</option>
+                            <option value="lecture">Лекция</option>
+                            <option value="conference">Конференция</option>
+                            <option value="workshop">Мастер-класс</option>
+                            <option value="concert">Концерт</option>
+                            <option value="exhibition">Выставка</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-date">Дата проведения</label>
+                        <input type="date" id="event-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Время проведения</label>
+                        <input type="time" id="event-time" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-duration">Продолжительность (часы)</label>
+                        <input type="number" id="event-duration" name="duration" min="1" max="12" value="2">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="event-location">Место проведения</label>
+                    <input type="text" id="event-location" name="location" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">Описание и медиа</h2>
+                <div class="form-group">
+                    <label for="event-description">Описание мероприятия</label>
+                    <textarea id="event-description" name="description" rows="5" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-image">Изображение мероприятия</label>
+                        <div class="image-upload">
+                            <input type="file" id="event-image" name="image" accept="image/*" required>
+                            <label for="event-image" class="upload-btn">
+                                <span class="upload-text">Выберите файл</span>
+                                <span class="file-name">Файл не выбран</span>
+                            </label>
+                            <div class="image-preview" id="image-preview"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-max-participants">Макс. участников</label>
+                        <input type="number" id="event-max-participants" name="max_participants" min="1" value="50">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">Дополнительные настройки</h2>
+                <div class="form-row">
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="event-featured" name="featured">
+                        <label for="event-featured">Рекомендуемое мероприятие</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="event-registration" name="registration_required" checked>
+                        <label for="event-registration">Требуется регистрация</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="reset" class="cancel-btn">Очистить</button>
+                <button type="submit" class="submit-btn">Создать мероприятие</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Вкладка управления мероприятиями -->
+    <div class="tab-content" id="manage-tab">
+        <div class="events-list">
+            <div class="list-header">
+                <span class="header-title">Название</span>
+                <span class="header-date">Дата</span>
+                <span class="header-participants">Участники</span>
+                <span class="header-actions">Действия</span>
+            </div>
+            <div class="list-content">
+                <!-- Здесь будут динамически загружаться мероприятия -->
+                <div class="empty-state">
+                    <img src="{{ url_for('static', filename='empty-events.svg') }}" alt="Нет мероприятий">
+                    <p>Нет созданных мероприятий</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вкладка статистики -->
+    <div class="tab-content" id="stats-tab">
+        <div class="stats-grid">
+            <div class="stat-card large">
+                <h3>Посещаемость</h3>
+                <div class="chart-container">
+                    <canvas id="attendance-chart"></canvas>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Популярные категории</h3>
+                <div class="chart-container">
+                    <canvas id="categories-chart"></canvas>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Активность пользователей</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <span class="time">10:45</span>
+                        <span class="action">Иван Иванов зарегистрировался на "Лекцию по Python"</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="time">09:30</span>
+                        <span class="action">Анна Петрова отменила регистрацию на "Мастер-класс"</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="time">Вчера, 18:20</span>
+                        <span class="action">Создано новое мероприятие "Выставка проектов"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/admin_lk.js') }}"></script>
+{% endblock %}
