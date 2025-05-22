@@ -32,11 +32,11 @@ def izbr(token):
         return render_template("izbr.html", user_name=user[0], user_email=user[1])
     return redirect(url_for('lk'))
 
-'''
-@app.route('/lk/admin')
-def izbr():
-    return render_template("izbr.html")
-'''
+
+@app.route('/admin_lk')
+def admin_lk():
+    return render_template("admin_lk.html")
+
 
 if __name__ == "__main__":
     app.register_blueprint(api_bp)
