@@ -31,8 +31,9 @@
                 <img src="{{ url_for('static', filename='kabinet.png') }}" alt="lk-img" width="25" height="25">
             </a>
             <a href="{{ url_for('lk') }}" class="header-lk-word">
-                <span class="header-lk-word-name">ЛИЧНЫЙ КАБИНЕТ</span>
-            </a>
+    <span class="header-lk-word-name">ЛИЧНЫЙ КАБИНЕТ</span>
+</a>
+
         </div>
     </header>
 
@@ -87,5 +88,17 @@
 
     <script src="" async defer></script>
 </body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
 
 </html>

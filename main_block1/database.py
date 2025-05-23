@@ -1,47 +1,63 @@
-import sqlite3 as sql
-import database_requests as reqs 
-import secrets 
-import threading
+import sqlite3
+from datetime import datetime
 
 class Database:
-    def __init__(self, filename):
-        self.lock = threading.Lock()                            # Объект – замок 
-        self.connection = sql.connect(filename, check_same_thread=False)
-        self.cursor = self.connection.cursor()
-        self._initialize_tables()
-    
-    def _initialize_tables(self):
-        self.lock.acquire()  # Блокируем доступ другим потокам
+    def __init__(self, db_path='database.db'):
+        """Инициализация подключения к базе данных"""
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        self.conn.execute("PRAGMA foreign_keys = ON")
+        self.cursor = self.conn.cursor()
+        self.create_tables()
+        print("[DB] База данных подключена")
+
+    def create_tables(self):
+        """Создание таблиц, если они не существуют"""
         try:
-            # Создаем 3 таблицы:
-            self.cursor.execute(reqs.init_request_users)  # Пользователи
-            self.cursor.execute(reqs.init_request_events)  # События
-            self.cursor.execute(reqs.events_description)  # Описания событий
-            self.connection.commit()  # Сохраняем изменения
-        finally:
-            self.lock.release()  # Разблокируем доступ
+            self.cursor.execute("""
+                CREATE TABLE IF NOT EXISTS events (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    description TEXT NOT NULL,
+                    date TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    created_by INTEGER
+                )
+            """)
+            self.conn.commit()
+            print("[DB] Таблица events создана")
+        except sqlite3.Error as e:
+            print(f"[DB ERROR] Ошибка при создании таблицы: {e}")
 
-    def find_user(self, email):
-        self.lock.acquire()                                     # Закрываем замок: сейчас БДшкой пользоваться будем мы. Но если он уже закрыт (занят другими потоками, мы ждём в этом методе и не идем дальше, пока не откроется)
-                         
-        self.cursor.execute(reqs.get_users_by_email, (email,))
-        self.connection.commit()
+    def add_event(self, title, description, date, created_by=None):
+        """Добавление нового события в базу данных"""
+        try:
+            self.cursor.execute(
+                "INSERT INTO events (title, description, date, created_by) VALUES (?, ?, ?, ?)",
+                (title, description, date, created_by)
+            )
+            self.conn.commit()
+            print(f"[DB] Событие добавлено. ID: {self.cursor.lastrowid}")
+            return True
+        except sqlite3.Error as e:
+            print(f"[DB ERROR] Ошибка при добавлении события: {e}")
+            return False
 
-        user = self.cursor.fetchone()
-        self.lock.release()                                     # Нам больше не нужны операции с БД, поэтому позволяем другим потокам пользоваться find_user, открываем замок
-        return user
-
-    def add_user(self, request):
-        token = secrets.token_hex(16)
-        self.lock.acquire()                                     # Опять работаем с курсором, поэтому замок закрываем 
-
-        self.cursor.execute(reqs.find_token, (token,))
-        occurences = self.cursor.fetchall()
-        while occurences != []: 
-            self.cursor.execute(reqs.find_token, (token,))
-            occurences = self.cursor.fetchall()
-
-        self.cursor.execute(reqs.add_user, (request['full_name'], request['email'], request['password'], token))
-        self.connection.commit()
-
-        self.lock.release()                                    # Теперь курсор нам не нужен 
+    def get_all_events(self):
+        """Получение всех событий из базы данных"""
+        try:
+            self.cursor.execute("""
+                SELECT id, title, description, date, created_at 
+                FROM events 
+                ORDER BY date DESC
+            """)
+            events = self.cursor.fetchall()
+            return [{
+                'id': e[0],
+                'title': e[1],
+                'description': e[2],
+                'date': e[3],
+                'created_at': e[4]
+            } for e in events]
+        except sqlite3.Error as e:
+            print(f"[DB ERROR] Ошибка при получении событий: {e}")
+            return []

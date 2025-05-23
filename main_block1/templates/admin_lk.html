@@ -1,164 +1,72 @@
 {% extends "base.html" %}
 
-{% block title %}Админ-панель | МАИ{% endblock %}
+{% block title %}Админ-панель{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='admin_lk.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='lk.css') }}">
 
-<div class="admin-container">
-    <!-- Шапка админ-панели -->
-    <div class="admin-header">
-        <div class="admin-info">
-            <h1 class="admin-title">Панель администратора</h1>
-            <span class="admin-subtitle">Управление мероприятиями</span>
-        </div>
+<div class="container" style="max-width: 800px; margin: 50px auto; padding: 40px; background-color: #0c0f2d; border-radius: 20px; box-shadow: 0 0 20px rgba(221, 0, 255, 0.5); color: white;">
+    <h1 style="text-align: center; font-size: 32px; margin-bottom: 10px; color: #fff;">АДМИН-ПАНЕЛЬ</h1>
+    <p style="text-align: center; margin-bottom: 30px; color: #aaa;">Добро пожаловать, администратор! Здесь вы можете управлять событиями.</p>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="{{ url_for('logout') }}" class="btn" style="background-color: #ff00cc; padding: 10px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold;">Выйти</a>
     </div>
 
-    <!-- Форма создания мероприятия -->
-    <div class="tab-content active" id="create-tab">
-        <form class="event-form" id="create-event-form" enctype="multipart/form-data">
-            <div class="form-section">
-                <h2 class="section-title">Основная информация</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="event-title">Название мероприятия</label>
-                        <input type="text" id="event-title" name="title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="event-category">Категория</label>
-                        <select id="event-category" name="category" required>
-                            <option value="">Выберите категорию</option>
-                            <option value="lecture">Лекция</option>
-                            <option value="conference">Конференция</option>
-                            <option value="workshop">Мастер-класс</option>
-                            <option value="concert">Концерт</option>
-                            <option value="exhibition">Выставка</option>
-                        </select>
-                    </div>
-                </div>
+    <hr style="border-color: #444; margin: 30px 0;">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="event-date">Дата проведения</label>
-                        <input type="date" id="event-date" name="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="event-time">Время проведения</label>
-                        <input type="time" id="event-time" name="time" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="event-duration">Продолжительность (часы)</label>
-                        <input type="number" id="event-duration" name="duration" min="1" max="12" value="2">
-                    </div>
-                </div>
+    <h2 style="text-align: center; color: white; margin-bottom: 20px;">Добавить событие</h2>
 
-                <div class="form-group">
-                    <label for="event-location">Место проведения</label>
-                    <input type="text" id="event-location" name="location" required>
-                </div>
-            </div>
+    <form method="POST" action="{{ url_for('admin_lk') }}" style="display: flex; flex-direction: column; gap: 15px;">
+    <input type="text" name="title" placeholder="Название" required class="admin-input">
+    <textarea name="description" placeholder="Описание" required class="admin-input" style="min-height: 100px;"></textarea>
+    <input type="datetime-local" name="date" required class="admin-input">
+    <button type="submit" class="btn">Добавить</button>
+    </form>
 
-            <div class="form-section">
-                <h2 class="section-title">Описание и медиа</h2>
-                <div class="form-group">
-                    <label for="event-description">Описание мероприятия</label>
-                    <textarea id="event-description" name="description" rows="5" required></textarea>
-                </div>
+    <hr style="border-color: #444; margin: 40px 0;">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="event-image">Изображение мероприятия</label>
-                        <div class="image-upload">
-                            <input type="file" id="event-image" name="image" accept="image/*" required>
-                            <label for="event-image" class="upload-btn">
-                                <span class="upload-text">Выберите файл</span>
-                                <span class="file-name">Файл не выбран</span>
-                            </label>
-                            <div class="image-preview" id="image-preview"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="event-max-participants">Макс. участников</label>
-                        <input type="number" id="event-max-participants" name="max_participants" min="1" value="50">
-                    </div>
-                </div>
-            </div>
+    <h2 style="text-align: center; color: white;">Список событий</h2>
 
-            <div class="form-section">
-                <h2 class="section-title">Дополнительные настройки</h2>
-                <div class="form-row">
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="event-featured" name="featured">
-                        <label for="event-featured">Рекомендуемое мероприятие</label>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="event-registration" name="registration_required" checked>
-                        <label for="event-registration">Требуется регистрация</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="reset" class="cancel-btn">Очистить</button>
-                <button type="submit" class="submit-btn">Создать мероприятие</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Вкладка управления мероприятиями -->
-    <div class="tab-content" id="manage-tab">
-        <div class="events-list">
-            <div class="list-header">
-                <span class="header-title">Название</span>
-                <span class="header-date">Дата</span>
-                <span class="header-participants">Участники</span>
-                <span class="header-actions">Действия</span>
-            </div>
-            <div class="list-content">
-                <!-- Здесь будут динамически загружаться мероприятия -->
-                <div class="empty-state">
-                    <img src="{{ url_for('static', filename='empty-events.svg') }}" alt="Нет мероприятий">
-                    <p>Нет созданных мероприятий</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Вкладка статистики -->
-    <div class="tab-content" id="stats-tab">
-        <div class="stats-grid">
-            <div class="stat-card large">
-                <h3>Посещаемость</h3>
-                <div class="chart-container">
-                    <canvas id="attendance-chart"></canvas>
-                </div>
-            </div>
-            <div class="stat-card">
-                <h3>Популярные категории</h3>
-                <div class="chart-container">
-                    <canvas id="categories-chart"></canvas>
-                </div>
-            </div>
-            <div class="stat-card">
-                <h3>Активность пользователей</h3>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <span class="time">10:45</span>
-                        <span class="action">Иван Иванов зарегистрировался на "Лекцию по Python"</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="time">09:30</span>
-                        <span class="action">Анна Петрова отменила регистрацию на "Мастер-класс"</span>
-                    </div>
-                    <div class="activity-item">
-                        <span class="time">Вчера, 18:20</span>
-                        <span class="action">Создано новое мероприятие "Выставка проектов"</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% if events %}
+        <ul style="list-style: none; padding: 0;">
+            {% for event in events %}
+                <li style="background-color: #1c1f45; margin-bottom: 15px; padding: 15px 20px; border-radius: 10px;">
+                    <strong style="font-size: 18px;">{{ event.title }}</strong><br>
+                    <small style="color: #bbb;">{{ event.date }} — {{ event.description }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="text-align: center; color: #ccc;">Событий пока нет.</p>
+    {% endif %}
 </div>
 
-<script src="{{ url_for('static', filename='js/admin_lk.js') }}"></script>
+<style>
+    .admin-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #555;
+        border-radius: 10px;
+        background-color: #15183a;
+        color: #fff;
+        font-size: 16px;
+    }
+    .admin-input::placeholder {
+        color: #888;
+    }
+    .btn {
+        background-color: #ff00cc;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .btn:hover {
+        background-color: #e600b3;
+    }
+</style>
 {% endblock %}
