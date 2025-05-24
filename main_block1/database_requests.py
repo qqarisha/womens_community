@@ -1,35 +1,78 @@
-init_request_users = '''CREATE TABLE IF NOT EXISTS Users (
-id INTEGER PRIMARY KEY,
-full_name TEXT NOT NULL,
-email TEXT NOT NULL,
-password_hash TEXT NOT NULL,
-auth_token TEXT NOT NULL
-)'''
-
 get_users_by_email = '''SELECT * FROM Users WHERE email = ?'''
 
-add_user = '''INSERT INTO Users (full_name, email, password_hash, auth_token) VALUES (?, ?, ?, ?)'''
+add_user = '''INSERT INTO users (full_name, email, password_hash, is_admin, token) VALUES (?, ?, ?, ?, ?)'''
 
-find_token = '''SELECT * FROM Users WHERE auth_token = ?'''
+get_users_by_token = '''SELECT * FROM Users WHERE auth_token = ?'''
+
+get_event_by_token = '''SELECT * FROM events WHERE token = ?'''
 
 data_by_token = '''SELECT full_name, email FROM Users WHERE auth_token = ?'''
 
-init_request_events = '''CREATE TABLE IF NOT EXISTS Events (
-id INTEGER PRIMARY KEY,
-name TEXT NOT NULL,
-date DATETIME NOT NULL,
-place TEXT NOT NULL,
-price TEXT NOT NULL,
-description TEXT NOT NULL,
-more_description TEXT NOT NULL
-)'''
+all_events = '''SELECT * FROM events ORDER BY date DESC'''
 
-events_description = '''CREATE TABLE IF NOT EXISTS EventsDescription (
-id INTEGER PRIMARY KEY,
-name TEXT NOT NULL,
-date DATETIME NOT NULL,
-place TEXT NOT NULL,
-price TEXT NOT NULL,
+add_event = '''INSERT INTO events (title, description, date) VALUES (?, ?, ?)'''
+
+delete_event = '''DELETE FROM events WHERE token = ?'''
+
+register_for_event = """
+INSERT OR IGNORE INTO user_events (user_token, event_token)
+VALUES (?, ?)
+"""
+
+add_event_with_image = """
+INSERT INTO events (title, description, date, image)
+VALUES (?, ?, ?, ?)
+"""
+
+get_user_events = """
+SELECT events.* FROM events
+JOIN user_events ON events.token = user_events.event_token
+WHERE user_events.user_token = ?
+ORDER BY events.date DESC
+"""
+
+init_request_users = """
+CREATE TABLE IF NOT EXISTS users (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+full_name TEXT NOT NULL,
+email TEXT NOT NULL UNIQUE,
+password_hash TEXT NOT NULL,
+is_admin INTEGER DEFAULT 0,
+token TEXT NOT NULL
+)
+"""
+
+init_request_events = """
+CREATE TABLE IF NOT EXISTS events (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+title TEXT NOT NULL,
+description TEXT NOT NULL,
 full_description TEXT NOT NULL,
-event_token TEXT NOT NULL
-)'''
+event_format TEXT NOT NULL,
+organizer TEXT NOT NULL, 
+location TEXT NOT NULL,
+date TEXT NOT NULL,
+image TEXT,
+token TEXT NOT NULL
+)
+"""
+
+init_request_registrations = """
+CREATE TABLE IF NOT EXISTS registrations (
+user_token INTEGER,
+event_token INTEGER,
+PRIMARY KEY (user_id, event_id)
+)
+"""
+
+init_request_user_events = """
+CREATE TABLE IF NOT EXISTS user_events (
+user_token INTEGER,
+event_token INTEGER,
+PRIMARY KEY (user_token, event_token)
+)
+"""
+
+
+
+add_image_column = '''ALTER TABLE events ADD COLUMN image TEXT'''

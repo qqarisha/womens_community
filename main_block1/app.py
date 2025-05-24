@@ -4,6 +4,7 @@ from database import Database
 import os
 from werkzeug.utils import secure_filename
 
+
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.secret_key = 'your_secret_key'
@@ -33,39 +34,27 @@ def meropriatie():
     return render_template("meropriatie.html", events=events)
 
 
-@app.route('/lk', methods=['GET', 'POST'])
+@app.route('/lk')
 def lk():
-    if 'user_id' not in session:
+    if 'user_token' not in session:
         return redirect(url_for('login'))
 
-    user = db.get_user_by_id(session['user_id'])
+    user = db.get_user_by_token(session['user_token'])
     if not user:
         flash("Пользователь не найден. Пожалуйста, войдите заново.")
         session.clear()
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        if 'avatar' in request.files:
-            file = request.files['avatar']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                db.update_user_avatar(user['id'], filename)
-                user['avatar'] = filename
-                flash('Аватар обновлён!')
-
-    favorites = db.get_user_favorites(user['id'])
-    events = db.get_user_events(user['id'])
-
-    return render_template("lk.html", user=user, favorites=favorites, events=events)
+    events = db.get_user_events(user['token'])
+    return render_template("lk.html", user=user, events=events)
 
 
 @app.route('/my_events')
 def my_events():
-    if 'user_id' not in session:
+    if 'user_token' not in session:
         return redirect(url_for('login'))
-    events = db.get_user_events(session['user_id'])
+    
+    events = db.get_user_events(session['user_token'])
     return render_template("my_events.html", events=events)
 
 
@@ -79,14 +68,6 @@ def delete_event(event_id):
     return redirect(url_for("admin_lk"))
 
 
-@app.route('/favorites')
-def favorites():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    favorites = db.get_user_favorites(session['user_id'])
-    return render_template("favorites.html", favorites=favorites)
-
-
 @app.route("/admin_lk", methods=["GET", "POST"])
 def admin_lk():
     if not session.get("is_admin"):
@@ -95,6 +76,10 @@ def admin_lk():
     if request.method == "POST":
         title = request.form["title"]
         description = request.form["description"]
+        full_description = request.form["full_description"]
+        event_format = request.form["event_format"]
+        organizer = request.form["organizer"]
+        location = request.form["location"]
         date = request.form["date"]
 
         image_file = request.files.get("image")
@@ -103,7 +88,7 @@ def admin_lk():
             image_filename = secure_filename(image_file.filename)
             image_file.save(os.path.join(app.config["UPLOAD_FOLDER"], image_filename))
 
-        db.add_event_with_image(title, description, date, image_filename)
+        db.add_event_with_image(title, description, full_description, event_format, organizer, location, date, image_filename)
 
     events = db.get_all_events()
     return render_template("admin_lk.html", events=events)
@@ -118,7 +103,7 @@ def login():
         user = db.get_user_by_email(email)
 
         if user and user['password'] == password:
-            session['user_id'] = user['id']
+            session['user_token'] = user['token']
             session['is_admin'] = user['is_admin']
             return redirect(url_for('admin_lk' if user['is_admin'] else 'lk'))
         else:
@@ -130,6 +115,7 @@ def login():
 
 @app.route("/lk/register", methods=["GET", "POST"])
 def register():
+    print("AaAaA")
     if request.method == "POST":
         full_name = request.form.get("full_name")
         email = request.form.get("email")
@@ -158,7 +144,7 @@ def register():
         })
 
         user = db.get_user_by_email(email)
-        session['user_id'] = user['id']
+        session['user_token'] = user['id']
         session['is_admin'] = 0
 
         flash("Регистрация успешна!", "success")
@@ -169,7 +155,7 @@ def register():
 
 @app.route('/admin/add_event', methods=['GET', 'POST'])
 def add_event():
-    if 'user_id' not in session or not session.get('is_admin'):
+    if 'user_token' not in session or not session.get('is_admin'):
         return redirect(url_for('login'))
 
     if request.method == 'POST':
@@ -200,7 +186,7 @@ def logout():
 
 @app.route('/auth')
 def auth():
-    if 'user_id' in session:
+    if 'user_token' in session:
         if session.get('is_admin'):
             return redirect(url_for('admin_lk'))
         else:
@@ -210,7 +196,7 @@ def auth():
 
 @app.route('/upload_avatar', methods=['POST'])
 def upload_avatar():
-    if 'user_id' not in session:
+    if 'user_token' not in session:
         return redirect(url_for('login'))
 
     file = request.files.get('avatar')
@@ -218,7 +204,7 @@ def upload_avatar():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        db.update_user_avatar(session['user_id'], filename)
+        db.update_user_avatar(session['user_token'], filename)
 
     return redirect(url_for('lk'))
 

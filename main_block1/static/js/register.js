@@ -4,12 +4,6 @@ async function sha256(str) {
     return Array.from(new Uint8Array(digest))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
-}async function sha256(str) {
-    const buf = new TextEncoder().encode(str);
-    const digest = await crypto.subtle.digest('SHA-256', buf);
-    return Array.from(new Uint8Array(digest))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
 }
 
 document.getElementById('registrationForm').addEventListener('submit', async function(e) {

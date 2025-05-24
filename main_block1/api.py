@@ -29,7 +29,6 @@ def api_auth():
         print("Passwords do not match\n")
         return json.dumps({'status': 400, 'message': 'Пароли не совпадают.'})
     
-    print("Popa")
     return json.dumps({
         'status': 200, 
         'message': 'Authorized', 
