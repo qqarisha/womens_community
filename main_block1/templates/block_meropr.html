@@ -1,39 +1,44 @@
-
 <link rel="stylesheet" href="{{ url_for('static', filename='block_meropr.css')}}">
 
-
 <div class="event-frame">
-
     <div class="event-frame-main_info">
         <div class="event-frame-main_info-vverh">
             <div class="event-frame-main_info-datetime">
-                <span class="event-frame-main_info-date">15 октября 2025, Сб</span>
-                <span class="event-frame-main_info-time">19:00</span>
+                <span class="event-frame-main_info-date">
+                    {{ event[3] if event[3] else 'Дата уточняется' }}
+                </span>
             </div>
             <div class="event-frame-main_info-location">
-                <span class="event-frame-main_info-location-1">МАИ ГУК</span>
-                <span class="event-frame-main_info-location-2">Корпус А каб.307</span>
+                <span class="event-frame-main_info-location-1">
+                    МАИ
+                </span>
             </div>
         </div>
-        <span class="event-frame-main_info-price">Бесплатно</span>
+        <span class="event-frame-main_info-price">
+            Бесплатно
+        </span>
     </div>
 
     <div class="event-frame-vertical-line"></div>
 
     <div class="event-frame-info">
-        <span class="event-frame-info-title">ЯНДЕКС. Y&amp;&amp;Y Tour </span>
+        <span class="event-frame-info-title">{{ event[1] }}</span>
         <div class="event-frame-info-text">
             <span class="event-frame-info-text-what">Что будет:</span>
-            <p class="event-frame-info-text-text"> — Мерч, нетворкинг и бинго с рекрутерами и стажёрами. <br>
-                — Вдохновляющая история от выпускника МАИ, разработчика Яндекс Погоды.</p>
+            <p class="event-frame-info-text-text">
+                {{ event[2]|safe }}
+            </p>
         </div>
         <button class="event-frame-info-title-more">
-            <a class="event-frame-info-title-more-href" href="http://127.0.0.1:5000/meropriatie">ПОДРОБНЕЕ</a>
+            <a class="event-frame-info-title-more-href" href="{{ url_for('event_detail', event_id=event[0]) }}">
+                ПОДРОБНЕЕ
+            </a>
         </button>
     </div>
+    
     <div class="event-frame-img1">
-        <img class="event-frame-img" alt="fon_meropriatie_base" src="{{ url_for('static', filename='fon_meropriatie_base.jpg') }}" height="270" width=
-        '270'>
+        <img class="event-frame-img" alt="{{ event[1] }}" 
+             src="{{ url_for('static', filename='fon_meropriatie_base.jpg') }}" 
+             height="270" width="270">
     </div>
-
 </div>
