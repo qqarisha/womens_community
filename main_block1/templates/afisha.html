@@ -2,35 +2,34 @@
 
 {% block title %}Главная страница{% endblock %}
 
-{%block body%}
+{% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='afisha.css')}}">
+
 <div class="main">
     <div class="main-word">
         <h1 class="main-word-zagolovok">АФИША</h1>
         <button class="main-word-filt">
             <div class="main-word-filt-button">
                 <span class="main-word-filt-1">ФИЛЬТР</span>
-                <img src="static\menu.png" alt="img-menu-filt" height="30" width="30" class="main-word-filt-2">
+                <img src="{{ url_for('static', filename='menu.png') }}" alt="img-menu-filt" height="30" width="30" class="main-word-filt-2">
             </div>
         </button>
     </div>
     <div class="main-line"></div>
 </div>
+
 <!-- Страница фильтра -->
 <div class="filter-page">
     <div class="filter-container">
         <button class="close-filter"></button>
         <h2 class="filter-title">Фильтр мероприятий</h2>
         <div class="filter-sections">
-            <!-- Секция даты -->
             <div class="filter-section">
                 <h3>Дата проведения</h3>
                 <input type="date" class="filter-date">
             </div>
 
-            <!-- Комбинированная секция -->
             <div class="filter-combo-section">
-                <!-- Секция категорий -->
                 <div class="filter-subsection">
                     <h3>Категории</h3>
                     <div class="filter-checkboxes">
@@ -42,7 +41,6 @@
 
                 <div class="filter-vertical-line"></div>
 
-                <!-- Секция тематики -->
                 <div class="filter-subsection">
                     <h3>Тематика</h3>
                     <div class="filter-checkboxes">
@@ -54,7 +52,6 @@
 
                 <div class="filter-vertical-line"></div>
 
-                <!-- Секция локации -->
                 <div class="filter-subsection">
                     <h3>Локация</h3>
                     <div class="filter-checkboxes">
@@ -72,17 +69,46 @@
         </div>
     </div>
 </div>
+
 <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
 
-<div class="container1"></div>
-<!-- Карточка мероприятия 1 -->
-{% include "block_meropr.html" %}
-{% include "block_meropr.html" %}
-{% include "block_meropr.html" %}
-{% include "block_meropr.html" %}
+<!-- Статические мероприятия из макета Figma -->
+<div class="container1">
+    {% include "block_meropr.html" %}
+    {% include "block_meropr.html" %}
+    {% include "block_meropr.html" %}
+    {% include "block_meropr.html" %}
+</div>
+
+<!-- Динамически добавленные мероприятия -->
+<div class="container1">
+    {% for event in events %}
+    <div class="event-block">
+        <div class="event-left">
+            <p class="event-date">
+                <img src="{{ url_for('static', filename='calendar-icon.png') }}" alt="calendar" class="event-icon">
+                {{ event[3] or "Дата не указана" }}
+            </p>
+            <p class="event-location">
+                <img src="{{ url_for('static', filename='location-icon.png') }}" alt="location" class="event-icon">
+                МАИ ГУК<br>Корпус А каб.307
+            </p>
+            <p class="event-free">Бесплатно</p>
+        </div>
+        <div class="event-divider"></div>
+        <div class="event-middle">
+            <h3 class="event-title">{{ event[1] }}</h3>
+            <p class="event-description-title">Что будет:</p>
+            <p class="event-description">{{ event[2] }}</p>
+            <a href="#" class="event-btn">ПОДРОБНЕЕ</a>
+        </div>
+        <div class="event-image-container">
+            <img src="{{ url_for('static', filename='uploads/' ~ (event[4] if event[4] else 'default_event.png')) }}"
+                 alt="Изображение события" class="event-img">
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 <a href="/auth" class="btn">Личный кабинет</a>
-
-
-
-{%endblock%}
+{% endblock %}

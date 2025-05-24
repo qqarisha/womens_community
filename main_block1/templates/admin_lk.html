@@ -5,68 +5,176 @@
 {% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='lk.css') }}">
 
-<div class="container" style="max-width: 800px; margin: 50px auto; padding: 40px; background-color: #0c0f2d; border-radius: 20px; box-shadow: 0 0 20px rgba(221, 0, 255, 0.5); color: white;">
-    <h1 style="text-align: center; font-size: 32px; margin-bottom: 10px; color: #fff;">АДМИН-ПАНЕЛЬ</h1>
-    <p style="text-align: center; margin-bottom: 30px; color: #aaa;">Добро пожаловать, администратор! Здесь вы можете управлять событиями.</p>
+<div class="admin-panel">
+    <div class="admin-container">
+        <h2 class="admin-title">АДМИН-ПАНЕЛЬ</h2>
+        <p class="admin-subtext">Добро пожаловать, администратор! Здесь вы можете управлять событиями.</p>
+        <a href="{{ url_for('logout') }}" class="btn logout-btn">Выйти</a>
 
-    <div style="text-align: center; margin-bottom: 30px;">
-        <a href="{{ url_for('logout') }}" class="btn" style="background-color: #ff00cc; padding: 10px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold;">Выйти</a>
+        <hr class="admin-divider">
+
+        <h3 class="admin-section-title">Добавить событие</h3>
+        <form method="POST" enctype="multipart/form-data" class="event-form">
+            <input type="text" name="title" class="admin-input" placeholder="Название события" required>
+            <textarea name="description" class="admin-input" placeholder="Описание события" required></textarea>
+            <input type="date" name="date" class="admin-input" required>
+            <input type="file" name="image" class="admin-input" accept="image/*">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+
+        <hr class="admin-divider">
+
+        <h3 class="admin-section-title">Список событий</h3>
+        <div class="event-list">
+            {% if events %}
+                {% for event in events %}
+            <form action="{{ url_for('delete_event', event_id=event[0]) }}" method="post" onsubmit="return confirm('Удалить это событие?');" style="margin-top: 10px;">
+    <button type="submit" class="btn delete-btn">Удалить</button>
+</form>
+
+                <div class="event-card-admin">
+                    {% if event[4] %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ event[4]) }}" alt="Изображение события" class="event-image-admin">
+                    {% endif %}
+                    <h3 class="event-title">{{ event[1] }}</h3>
+                    <p class="event-description">{{ event[2] }}</p>
+                    <p class="event-date">{{ event[3] }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-events">Событий пока нет.</p>
+            {% endif %}
+        </div>
     </div>
-
-    <hr style="border-color: #444; margin: 30px 0;">
-
-    <h2 style="text-align: center; color: white; margin-bottom: 20px;">Добавить событие</h2>
-
-    <form method="POST" action="{{ url_for('admin_lk') }}" style="display: flex; flex-direction: column; gap: 15px;">
-    <input type="text" name="title" placeholder="Название" required class="admin-input">
-    <textarea name="description" placeholder="Описание" required class="admin-input" style="min-height: 100px;"></textarea>
-    <input type="datetime-local" name="date" required class="admin-input">
-    <button type="submit" class="btn">Добавить</button>
-    </form>
-
-    <hr style="border-color: #444; margin: 40px 0;">
-
-    <h2 style="text-align: center; color: white;">Список событий</h2>
-
-    {% if events %}
-        <ul style="list-style: none; padding: 0;">
-            {% for event in events %}
-                <li style="background-color: #1c1f45; margin-bottom: 15px; padding: 15px 20px; border-radius: 10px;">
-                    <strong style="font-size: 18px;">{{ event.title }}</strong><br>
-                    <small style="color: #bbb;">{{ event.date }} — {{ event.description }}</small>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p style="text-align: center; color: #ccc;">Событий пока нет.</p>
-    {% endif %}
 </div>
 
 <style>
-    .admin-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #555;
-        border-radius: 10px;
-        background-color: #15183a;
-        color: #fff;
-        font-size: 16px;
-    }
-    .admin-input::placeholder {
-        color: #888;
-    }
-    .btn {
-        background-color: #ff00cc;
-        border: none;
-        color: white;
-        padding: 10px 25px;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        text-decoration: none;
-    }
-    .btn:hover {
-        background-color: #e600b3;
-    }
+.logout-btn {
+    display: inline-block;
+    margin-bottom: 15px;
+    background-color: #ff00cc;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #e600b3;
+}
+
+.admin-panel {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.admin-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #121432;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px 4px #cc00ff;
+    color: white;
+}
+
+.admin-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.admin-subtext {
+    text-align: center;
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+.admin-divider {
+    border: none;
+    border-top: 2px solid #cc00ff;
+    margin: 30px 0;
+}
+
+.admin-section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.event-form input,
+.event-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #1a1c3a;
+    border: 1px solid #555;
+    color: white;
+    font-size: 16px;
+}
+
+.btn {
+    background-color: #cc00ff;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #b000e6;
+}
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.event-card-admin {
+    background-color: #1a1c3a;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #cc00ff;
+}
+
+.event-image-admin {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.event-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff00cc;
+    margin-bottom: 8px;
+}
+
+.event-description,
+.event-date {
+    font-size: 16px;
+    color: white;
+}
+
+.no-events {
+    text-align: center;
+    color: #ccc;
+}
 </style>
 {% endblock %}

@@ -5,28 +5,55 @@
 {% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='lk.css') }}">
 
-<div class="login-container">
-    <div class="login-card">
-        <h1 class="login-title">Вход в личный кабинет</h1>
-        <form class="login-form" method="POST" action="{{ url_for('login') }}">
-            <div class="form-group">
-                <label for="email">Электронная почта</label>
-                <input type="email" id="email" name="email" required placeholder="Введите ваш email">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Пароль</label>
-                <input type="password" id="password" name="password" required placeholder="Введите пароль">
-            </div>
-
-            <button type="submit" class="submit-btn">Войти</button>
-
-            <div class="login-links">
-                <a href="#">Забыли пароль?</a>
-                <a href="{{ url_for('register') }}">Регистрация</a>
-            </div>
+<div class="container">
+    <div class="profile-header">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_avatar') }}">
+            <label for="avatar-upload" class="avatar-label">
+                <img src="{{ url_for('static', filename='uploads/' ~ (user.avatar if user.avatar else 'default.png')) }}"
+                     class="profile-avatar" alt="avatar" title="Нажмите, чтобы изменить фото">
+            </label>
+            <input type="file" id="avatar-upload" name="avatar" style="display: none;" onchange="this.form.submit()">
         </form>
+        <div class="profile-info">
+            <h2 class="profile-name">{{ user.full_name }}</h2>
+            <p class="profile-email">{{ user.email }}</p>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-button">Выйти</a>
     </div>
+
+    <!-- Фиксированные кнопки -->
+    <div class="lk-buttons-fixed">
+        <a href="{{ url_for('my_events') }}" class="lk-button">Мои мероприятия</a>
+        <a href="{{ url_for('favorites') }}" class="lk-button">Избранное</a>
+    </div>
+
+    <!-- Мои мероприятия -->
+    <h2 class="section-title">Мои мероприятия</h2>
+    {% if events %}
+        {% for event in events %}
+            <div class="event-card">
+                <h3>{{ event.title }}</h3>
+                <p>{{ event.date }}</p>
+                <p>{{ event.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="section-subtext">Вы ещё не записаны ни на одно мероприятие.</p>
+    {% endif %}
+
+    <!-- Избранное -->
+    <h2 class="section-title">Избранное</h2>
+    {% if favorites %}
+        {% for event in favorites %}
+            <div class="event-card favorite">
+                <h3>{{ event.title }}</h3>
+                <p>{{ event.date }}</p>
+                <p>{{ event.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="section-subtext">У вас нет избранных мероприятий.</p>
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -1,3 +1,4 @@
+/* Base Styles */
 body {
     margin: 0;
     font-family: Golos, sans-serif;
@@ -12,7 +13,7 @@ a {
     color: inherit;
 }
 
-
+/* Header Styles */
 header {
     z-index: 3;
     display: flex;
@@ -80,13 +81,13 @@ header {
     color: #ffffff;
 }
 
-/**/
+/* Main Content Styles */
 main {
     position: relative;
     min-height: 100vh;
 }
 
-/* Контейнер для горизонтальных рамок */
+/* Horizontal Frames */
 .horizontal-frames {
     z-index: 1;
     position: fixed;
@@ -95,33 +96,31 @@ main {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;  /* Вертикальное расположение */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 40px;  /* Расстояние между рамками */
-    pointer-events: none;  /* Клики проходят сквозь рамки */
+    gap: 40px;
+    pointer-events: none;
 }
 
-/* Стиль каждой рамки */
 .frame {
     z-index: 1;
-    width: 80%;  /* Ширина относительно экрана */
-    height: 170px;  /* Высота горизонтальной рамки */
+    width: 80%;
+    height: 170px;
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
-    background: rgba(245, 52, 220, 0.05);  /* Легкая подложка */
+    background: rgba(245, 52, 220, 0.05);
 }
 
-/* Основной контент - должен быть ПОВЕРХ рамок */
 .content {
     position: relative;
-    background: rgba(5, 7, 35, 0.8);  /* Полупрозрачный фон для читаемости */
+    background: rgba(5, 7, 35, 0.8);
     padding: 30px;
     margin: 20px;
     border-radius: 12px;
 }
 
-/**/
+/* Footer Styles */
 footer {
     z-index: 3;
     display: flex;
@@ -170,7 +169,6 @@ footer {
 
 .footer-institute-line {
     border-left: medium solid #ffffff;
-
 }
 
 .footer-kontact {
@@ -188,7 +186,6 @@ footer {
     gap: 400px;
     color: #ffffff;
     align-items: center;
-
 }
 
 .footer-kontact-list-1column {
@@ -220,6 +217,78 @@ footer {
     align-items: center;
 }
 
+/* Utility Classes */
 .container {
     gap: 30px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Flash Messages */
+.flash-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.flash-messages {
+    margin: 20px auto;
+    width: 60%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.flash {
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s;
+}
+
+.alert-success {
+    background-color: #4CAF50;
+}
+
+.alert-danger {
+    background-color: #f44336;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

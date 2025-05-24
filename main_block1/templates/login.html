@@ -1,32 +1,90 @@
 {% extends "base.html" %}
 
-{% block title %}Личный кабинет{% endblock %}
+{% block title %}Вход{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='lk.css') }}">
+<style>
+    .login-container {
+        background-color: #0e0d2b;
+        padding: 40px;
+        border-radius: 12px;
+        max-width: 400px;
+        margin: 80px auto;
+        box-shadow: 0 0 10px 2px rgba(204, 0, 255, 0.4);
+        color: white;
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+    }
+
+    .login-container h1 {
+        margin-bottom: 30px;
+        font-size: 28px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 2px solid #cc00ff;
+        border-radius: 8px;
+        background-color: #1c1a3d;
+        color: white;
+    }
+
+    .login-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: transparent;
+        border: 2px solid #cc00ff;
+        border-radius: 8px;
+        color: #cc00ff;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .login-container button:hover {
+        background-color: #cc00ff;
+        color: white;
+        cursor: pointer;
+    }
+
+    .login-container a {
+        color: #cc00ff;
+        text-decoration: none;
+        margin: 0 5px;
+    }
+
+    .login-container a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: red;
+        margin-bottom: 15px;
+    }
+</style>
 
 <div class="login-container">
-    <div class="login-card">
-        <h1 class="login-title">Вход в личный кабинет</h1>
-        <form class="login-form" method="POST" action="{{ url_for('login') }}">
-            <div class="form-group">
-                <label for="email">Электронная почта</label>
-                <input type="email" id="email" name="email" required placeholder="Введите ваш email">
-            </div>
+    <h1>Вход в личный кабинет</h1>
 
-            <div class="form-group">
-                <label for="password">Пароль</label>
-                <input type="password" id="password" name="password" required placeholder="Введите пароль">
-            </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="error-message">{{ messages[0] }}</div>
+        {% endif %}
+    {% endwith %}
 
-            <button type="submit" class="submit-btn">Войти</button>
+    <form method="POST" action="{{ url_for('login') }}">
+        <input type="email" name="email" placeholder="Введите почту" required>
+        <input type="password" name="password" placeholder="Введите пароль" required>
+        <button type="submit">Войти</button>
+    </form>
 
-            <div class="login-links">
-                <a href="#">Забыли пароль?</a>
-                <a href="{{ url_for('register') }}">Регистрация</a>
-            </div>
-        </form>
+    <div style="margin-top: 15px;">
+        <a href="#">Забыли пароль?</a> |
+        <a href="{{ url_for('register') }}">Регистрация</a>
     </div>
 </div>
-
 {% endblock %}
