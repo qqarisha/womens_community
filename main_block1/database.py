@@ -18,8 +18,6 @@ class Database:
         self.conn.commit()
 
     def add_user(self, user_data):
-        query = req.add_user
-
         token = secrets.token_hex(16)
         self.cursor.execute(req.get_users_by_token, (token,))
         occurences = self.cursor.fetchall()
@@ -28,7 +26,7 @@ class Database:
             self.cursor.execute(req.get_users_by_token, (token,))
             occurences = self.cursor.fetchall()
 
-        self.cursor.execute(query,
+        self.cursor.execute(req.add_user,
                             (user_data['full_name'], user_data['email'], user_data['password_hash'],
                              user_data['is_admin'], token))
         self.conn.commit()
@@ -69,7 +67,7 @@ class Database:
         self.cursor.execute(req.get_user_events, (token,))
         return self.cursor.fetchall()
 
-    def add_event(self, title, description, date):
+    def add_event(self, title, description, full_description, event_format, organizer, location, date):
         token = secrets.token_hex(16)
         self.cursor.execute(req.get_users_by_token, (token,))
         occurences = self.cursor.fetchall()
@@ -79,14 +77,14 @@ class Database:
             occurences = self.cursor.fetchall()
             #wsaefdasdcasdcasdfasef
 
-        self.cursor.execute(req.add_event, (title, description, date))
+        self.cursor.execute(req.add_event, (title, description, full_description, event_format, organizer, location, date, token))
         self.conn.commit()
 
     def register_for_event(self, user_token, event_token):
         self.cursor.execute(req.register_for_event, (user_token, event_token))
         self.conn.commit()
 
-    def add_event_with_image(self, title, description, date, image_filename):
+    def add_event_with_image(self, title, description, full_description, event_format, organizer, location, date, image_filename):
         token = secrets.token_hex(16)
         self.cursor.execute(req.get_users_by_token, (token,))
         occurences = self.cursor.fetchall()

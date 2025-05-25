@@ -28,13 +28,13 @@
         <div class="event-list">
             {% if events %}
                 {% for event in events %}
-            <form action="{{ url_for('delete_event', event_id=event[0]) }}" method="post" onsubmit="return confirm('Удалить это событие?');" style="margin-top: 10px;">
+            <form action="{{ url_for('delete_event', event_token=event[9]) }}" method="post" onsubmit="return confirm('Удалить это событие?');" style="margin-top: 10px;">
     <button type="submit" class="btn delete-btn">Удалить</button>
 </form>
 
                 <div class="event-card-admin">
                     {% if event[4] %}
-                    <img src="{{ url_for('static', filename='uploads/' ~ event[4]) }}" alt="Изображение события" class="event-image-admin">
+                    <img src="{{ url_for('static', filename='uploads/' ~ event[8]) }}" alt="Изображение события" class="event-image-admin">
                     {% endif %}
                     <h3 class="event-title">{{ event[1] }}</h3>
                     <p class="event-description">{{ event[2] }}</p>

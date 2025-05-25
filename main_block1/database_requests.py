@@ -2,15 +2,15 @@ get_users_by_email = '''SELECT * FROM Users WHERE email = ?'''
 
 add_user = '''INSERT INTO users (full_name, email, password_hash, is_admin, token) VALUES (?, ?, ?, ?, ?)'''
 
-get_users_by_token = '''SELECT * FROM Users WHERE auth_token = ?'''
+get_users_by_token = '''SELECT * FROM Users WHERE token = ?'''
 
 get_event_by_token = '''SELECT * FROM events WHERE token = ?'''
 
-data_by_token = '''SELECT full_name, email FROM Users WHERE auth_token = ?'''
-
+data_by_token = '''SELECT full_name, email FROM Users WHERE token = ?'''
+ 
 all_events = '''SELECT * FROM events ORDER BY date DESC'''
 
-add_event = '''INSERT INTO events (title, description, date) VALUES (?, ?, ?)'''
+add_event = '''INSERT INTO events (title, description, full_description, event_format, organizer, location, date, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
 
 delete_event = '''DELETE FROM events WHERE token = ?'''
 
@@ -61,7 +61,7 @@ init_request_registrations = """
 CREATE TABLE IF NOT EXISTS registrations (
 user_token INTEGER,
 event_token INTEGER,
-PRIMARY KEY (user_id, event_id)
+PRIMARY KEY (user_token, event_token)
 )
 """
 

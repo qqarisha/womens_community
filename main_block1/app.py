@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_cors import CORS
 from database import Database
 import os
 from werkzeug.utils import secure_filename
-
+import hashlib
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.secret_key = 'your_secret_key'
 
 # Настройки загрузки файлов
@@ -58,7 +56,7 @@ def my_events():
     return render_template("my_events.html", events=events)
 
 
-@app.route("/admin/delete_event/<int:event_id>", methods=["POST"])
+@app.route("/admin/delete_event/<int:event_token>", methods=["POST"])
 def delete_event(event_id):
     if not session.get("is_admin"):
         return redirect(url_for("login"))
@@ -100,12 +98,18 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+
+        encoded_password = password.encode('utf-8')
+        hash_object = hashlib.sha256(encoded_password)
+        password_hash = hash_object.hexdigest()
+
         user = db.get_user_by_email(email)
 
-        if user and user['password'] == password:
+        if user and user['password_hash'] == password_hash:
             session['user_token'] = user['token']
             session['is_admin'] = user['is_admin']
             return redirect(url_for('admin_lk' if user['is_admin'] else 'lk'))
+        
         else:
             flash('Неверный email или пароль')
             return redirect(url_for('login'))
@@ -115,36 +119,31 @@ def login():
 
 @app.route("/lk/register", methods=["GET", "POST"])
 def register():
-    print("AaAaA")
     if request.method == "POST":
         full_name = request.form.get("full_name")
         email = request.form.get("email")
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
-        avatar_file = request.files.get("avatar")
 
         if password != confirm_password:
             return render_template("register.html", error="Пароли не совпадают")
 
         if db.get_user_by_email(email):
             return render_template("register.html", error="Email уже зарегистрирован")
-
-        avatar_filename = None
-        if avatar_file and allowed_file(avatar_file.filename):
-            filename = secure_filename(avatar_file.filename)
-            avatar_filename = f"{email}_{filename}"
-            avatar_file.save(os.path.join(app.config['UPLOAD_FOLDER'], avatar_filename))
+        
+        encoded_password = password.encode('utf-8')
+        hash_object = hashlib.sha256(encoded_password)
+        password_hash = hash_object.hexdigest()
 
         db.add_user({
             "full_name": full_name,
             "email": email,
-            "password": password,
+            "password_hash": password_hash,
             "is_admin": 0,
-            "avatar": avatar_filename
         })
 
         user = db.get_user_by_email(email)
-        session['user_token'] = user['id']
+        session['user_token'] = user['token']
         session['is_admin'] = 0
 
         flash("Регистрация успешна!", "success")
@@ -161,16 +160,27 @@ def add_event():
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
+        full_description = request.form['full_description']
+        event_format = request.form['event_format']
+        organizer = request.form['organizer']
+        location = request.form['location']
         date = request.form['date']
-        db.add_event({'title': title, 'description': description, 'date': date})
+        db.add_event({
+            'title': title, 
+            'description': description, 
+            'full_description': full_description,
+            'event_format': event_format,
+            'organizer': organizer,
+            'location': location,
+            'date': date})
         flash("Событие добавлено!", "success")
         return redirect('/meropriatie')
 
     return render_template("add_event.html")
 
-@app.route('/event/<int:event_id>')
-def event_detail(event_id):
-    event = db.get_event_by_id(event_id)
+@app.route('/event/<int:event_token>')
+def event_detail(event_token):
+    event = db.get_event_by_token(event_token)
     if not event:
         flash("Событие не найдено.")
         return redirect(url_for('main_page'))
@@ -193,10 +203,10 @@ def auth():
             return redirect(url_for('lk'))
     return redirect(url_for('login'))
 
-
+# Будет удалено
 @app.route('/upload_avatar', methods=['POST'])
 def upload_avatar():
-    if 'user_token' not in session:
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
     file = request.files.get('avatar')
@@ -204,10 +214,17 @@ def upload_avatar():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        db.update_user_avatar(session['user_token'], filename)
+        db.update_user_avatar(session['user_id'], filename)
 
     return redirect(url_for('lk'))
 
+# Будет удалено
+@app.route('/favorites')
+def favorites():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    favorites = db.get_user_favorites(session['user_id'])
+    return render_template("favorites.html", favorites=favorites)
 
 if __name__ == "__main__":
     app.run(debug=True)
