@@ -184,7 +184,7 @@ def event_detail(event_token):
     if not event:
         flash("Событие не найдено.")
         return redirect(url_for('main_page'))
-    return render_template("event_detail.html", event=event)
+    return render_template("meropriatie.html", event=event)
 
 
 @app.route('/logout')
