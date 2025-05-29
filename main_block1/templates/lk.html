@@ -21,9 +21,10 @@
     <div class="lk-buttons-fixed">
         <a href="{{ url_for('my_events') }}" class="lk-button">Мои мероприятия</a>
     </div>
-
+    <div class="pole"></div>
     <!-- Мои мероприятия -->
     <h2 class="section-title">Мои мероприятия</h2>
+    <div class="pole"></div>
     {% if events %}
         {% for event in events %}
             <div class="event-card">
@@ -37,18 +38,13 @@
     {% endif %}
 
     <!-- Избранное -->
-    <h2 class="section-title">Избранное</h2>
-    {% if favorites %}
-        {% for event in favorites %}
-            <div class="event-card favorite">
-                <h3>{{ event.title }}</h3>
-                <p>{{ event.date }}</p>
-                <p>{{ event.description }}</p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p class="section-subtext">У вас нет избранных мероприятий.</p>
-    {% endif %}
+    
 </div>
 
 {% endblock %}
+
+<style>
+    .pole {
+        height: 20px;
+    }
+</style>    
