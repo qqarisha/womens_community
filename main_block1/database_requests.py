@@ -73,6 +73,14 @@ PRIMARY KEY (user_token, event_token)
 )
 """
 
-
-
 add_image_column = '''ALTER TABLE events ADD COLUMN image TEXT'''
+
+get_event_by_token = """
+SELECT * FROM events WHERE token = ?
+"""
+
+if_register =  "SELECT 1 FROM user_events WHERE user_token = ? AND event_token = ?"
+
+register_for_event = """
+INSERT INTO user_events (user_token, event_token) VALUES (?, ?)
+"""

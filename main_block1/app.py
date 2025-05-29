@@ -203,6 +203,42 @@ def auth():
             return redirect(url_for('lk'))
     return redirect(url_for('login'))
 
+@app.route('/lk/mero_register/<event_token>')
+def mero_register(event_token):
+    # Проверка авторизации пользователя
+    if 'user_token' not in session:
+        flash('Для регистрации на мероприятие необходимо войти в систему', 'warning')
+        return redirect(url_for('login'))
+    
+    user_token = session['user_token']
+    
+    # Проверка существования пользователя
+    user = db.get_user_by_token(user_token)
+    if not user:
+        flash('Пользователь не найден. Пожалуйста, войдите заново.', 'error')
+        session.clear()
+        return redirect(url_for('login'))
+    
+    # Проверка существования мероприятия
+    event = db.get_event_by_token(event_token)
+    if not event:
+        flash('Мероприятие не найдено', 'error')
+        return redirect(url_for('main_page'))
+    
+    if db.is_user_registered(user_token, event_token):
+        flash('Вы уже зарегистрированы на это мероприятие', 'info')
+        return redirect(url_for('my_events'))
+
+    try:
+        # Регистрация пользователя на мероприятие
+        db.register_for_event(user_token, event_token)
+        flash('Регистрация на мероприятие прошла успешно!', 'success')
+        return redirect(url_for('my_events'))
+    
+    except Exception as e:
+        flash(f'Произошла ошибка при регистрации: {str(e)}', 'error')
+        return redirect(url_for('event_detail', event_token=event_token))
+
 # Будет удалено
 @app.route('/upload_avatar', methods=['POST'])
 def upload_avatar():

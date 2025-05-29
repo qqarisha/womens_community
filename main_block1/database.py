@@ -104,4 +104,8 @@ class Database:
         self.cursor.execute(req.delete_event, (event_token,))
         self.conn.commit()
 
+    def is_user_registered(self, user_token, event_token):
+        self.cursor.execute(req.if_register, (user_token, event_token))
+        return self.cursor.fetchone() is not None
+
 
